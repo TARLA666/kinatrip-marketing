@@ -221,8 +221,14 @@ def parse_schedule_md(schedule_path: Path) -> dict:
             hashtags = extract_hashtags(content_text)
             image_ref = extract_image_ref(image_text)
 
-            # 统一 content_file 为正斜杠路径（跨平台兼容）
-            content_file = str(schedule_path.relative_to(BASE_DIR)).replace("\\", "/")
+    # 统一 content_file 路径（跨平台兼容）
+    # 优先使用相对于 BASE_DIR 的路径；若不在 BASE_DIR 下，则保存为绝对路径
+    try:
+        content_file = str(schedule_path.relative_to(BASE_DIR)).replace("\\", "/")
+    except ValueError:
+        # schedule_path 不在 BASE_DIR 下时，保存绝对路径
+        content_file = str(schedule_path).replace("\\", "/")
+        print(f"  [提示] schedule.md 不在项目目录下，使用绝对路径: {content_file}", file=sys.stderr)
             posts.append({
                 "date": date_str,
                 "time_bjt": time_bjt,
@@ -248,7 +254,8 @@ def parse_schedule_md(schedule_path: Path) -> dict:
 
 def update_calendar(schedule_path: Path, dry_run: bool = False):
     """主函数：解析 schedule.md，更新 content_calendar.json"""
-    schedule_path = Path(schedule_path).resolve()
+    # 以脚本自身目录为锚点解析路径（不依赖 CWD）
+    schedule_path = (BASE_DIR / schedule_path).resolve()
     if not schedule_path.exists():
         print(f"[错误] 文件不存在: {schedule_path}", file=sys.stderr)
         sys.exit(1)
