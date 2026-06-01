@@ -3,5 +3,16 @@
     "description": "记录已发送提醒的内容ID，防止重复提醒",
     "last_updated": null
   },
-  "sent": {}
+  "sent": {
+    "01-mon-xiaohongshu": "2026-06-02T03:22:28",
+    "29-mon-instagram": "2026-06-02T03:22:28",
+    "08-mon-facebook": "2026-06-02T03:22:28",
+    "15-mon-x-twitter": "2026-06-02T03:22:28",
+    "22-mon-reddit": "2026-06-02T03:22:28",
+    "02-tue-xiaohongshu": "2026-06-02T03:22:28",
+    "30-tue-instagram": "2026-06-02T03:22:28",
+    "09-tue-facebook": "2026-06-02T03:22:28",
+    "16-tue-x-twitter": "2026-06-02T03:22:28",
+    "09-tue-reddit": "2026-06-02T03:22:28"
+  }
 }
