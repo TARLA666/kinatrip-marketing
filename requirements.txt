@@ -1,1 +1,6 @@
-cos-python-sdk-v5>=1.9.0
+# Kinatrip 营销提醒脚本依赖
+# 说明：check_and_remind.py 仅使用 Python 标准库，
+# 无需第三方依赖。此文件保留供将来扩展使用。
+
+# 如需发送带附件的邮件，可取消注释下一行：
+# email-validator>=2.1.0

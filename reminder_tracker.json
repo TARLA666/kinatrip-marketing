@@ -1,5 +1,7 @@
 {
-  "reminders_sent": {},
-  "last_check": null,
-  "note": "记录已发送的提醒，防止重复发送。key格式: '日期-时间-平台'，value为发送时间ISO格式"
+  "meta": {
+    "description": "记录已发送提醒的内容ID，防止重复提醒",
+    "last_updated": null
+  },
+  "sent": {}
 }
