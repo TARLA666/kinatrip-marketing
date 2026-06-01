@@ -134,76 +134,196 @@ def build_email_body(posts: list, today: str, tomorrow: str) -> str:
 
 
 def build_email_html(posts: list, today: str, tomorrow: str) -> str:
-    """构建 HTML 格式邮件正文（可选，作为 multipart 的 alternative）"""
+    """构建美观的响应式 HTML 格式邮件正文（品牌色 #0D47A1）"""
     today_posts = [p for p in posts if p["date"] == today]
     tomorrow_posts = [p for p in posts if p["date"] == tomorrow]
 
     def platform_badge(platform: str) -> str:
-        color = {
-            "xiaohongshu": "#FF2442",
-            "facebook": "#1877F2",
-            "x-twitter": "#14171A",
-            "instagram": "#E4405F",
-            "reddit": "#FF4500",
-        }.get(platform, "#666666")
-        name = {
-            "xiaohongshu": "小红书",
-            "facebook": "Facebook",
-            "x-twitter": "X",
-            "instagram": "Instagram",
-            "reddit": "Reddit",
-        }.get(platform, platform)
-        return f'<span style="background:{color};color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;">{name}</span>'
+        """带 emoji + 彩色标签的平台徽章"""
+        info = {
+            "xiaohongshu": {"color": "#FF2442", "name": "📕 小红书"},
+            "facebook":    {"color": "#1877F2", "name": "📘 Facebook"},
+            "x-twitter":   {"color": "#14171A", "name": "🐦 X/Twitter"},
+            "instagram":   {"color": "#E4405F", "name": "📸 Instagram"},
+            "reddit":      {"color": "#FF4500", "name": "🤖 Reddit"},
+        }.get(platform, {"color": "#666666", "name": platform})
+        return (
+            f'<span style="display:inline-block;background:{info["color"]};'
+            f'color:#fff;padding:3px 10px;border-radius:12px;'
+            f'font-size:12px;font-weight:600;white-space:nowrap;">'
+            f'{info["name"]}</span>'
+        )
 
-    def render_table(group: list) -> str:
+    def type_badge(post_type: str) -> str:
+        """内容类型标签"""
+        type_colors = {
+            "痛点共鸣": "#E91E63",
+            "攻略种草": "#00BCD4",
+            "功能展示": "#4CAF50",
+            "Story": "#FF9800",
+            "Scene Story": "#9C27B0",
+            "Pain Point": "#F44336",
+            "Quick Tip": "#2196F3",
+            "Interactive": "#FF5722",
+            "Guide": "#009688",
+            "Tool Review": "#795548",
+            "Feature Spotlight": "#3F51B5",
+            "Tip": "#607D8B",
+        }
+        c = type_colors.get(post_type, "#999")
+        return (
+            f'<span style="display:inline-block;background:{c};'
+            f'color:#fff;padding:1px 7px;border-radius:8px;'
+            f'font-size:11px;white-space:nowrap;">{post_type}</span>'
+        )
+
+    def render_section(group: list, label: str, date_str: str) -> str:
+        """渲染一个日期分组的卡面"""
         if not group:
-            return '<p style="color:#999;">（无待发布内容）</p>'
-        rows = ""
-        for p in group:
-            rows += f"""
-            <tr>
-                <td style="padding:8px;border-bottom:1px solid #eee;">{p['time_bjt']}</td>
-                <td style="padding:8px;border-bottom:1px solid #eee;">{platform_badge(p['platform'])}</td>
-                <td style="padding:8px;border-bottom:1px solid #eee;">{p['title']}</td>
-                <td style="padding:8px;border-bottom:1px solid #eee;color:#666;font-size:12px;">{p['type']}</td>
-            </tr>
-            """
+            return (
+                f'<div style="text-align:center;padding:30px 0;color:#bbb;'
+                f'font-size:14px;">🎉 暂无待发布内容</div>'
+            )
+        rows_html = ""
+        for i, p in enumerate(group):
+            bg = "#f8f9fa" if i % 2 == 0 else "#ffffff"
+            rows_html += f"""
+            <tr style="background:{bg};">
+                <td style="padding:10px 8px;border-bottom:1px solid #eee;
+                           font-size:13px;font-weight:600;color:#444;
+                           white-space:nowrap;width:50px;">
+                    🕐 {p['time_bjt']}
+                </td>
+                <td style="padding:10px 8px;border-bottom:1px solid #eee;width:105px;">
+                    {platform_badge(p['platform'])}
+                </td>
+                <td style="padding:10px 8px;border-bottom:1px solid #eee;
+                           font-size:13px;color:#333;line-height:1.4;">
+                    {p['title']}
+                    <div style="margin-top:4px;">{type_badge(p['type'])}</div>
+                </td>
+                <td style="padding:10px 8px;border-bottom:1px solid #eee;
+                           font-size:11px;color:#888;text-align:center;width:45px;">
+                    #{p['id']}
+                </td>
+            </tr>"""
         return f"""
-        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <table style="width:100%;border-collapse:collapse;font-size:14px;
+                       border-radius:8px;overflow:hidden;
+                       box-shadow:0 1px 3px rgba(0,0,0,0.08);">
             <thead>
-                <tr style="background:#f5f5f5;">
-                    <th style="padding:8px;text-align:left;">时间</th>
-                    <th style="padding:8px;text-align:left;">平台</th>
-                    <th style="padding:8px;text-align:left;">标题</th>
-                    <th style="padding:8px;text-align:left;">类型</th>
+                <tr style="background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;">
+                    <th style="padding:10px 8px;text-align:left;font-size:13px;">时间</th>
+                    <th style="padding:10px 8px;text-align:left;font-size:13px;">平台</th>
+                    <th style="padding:10px 8px;text-align:left;font-size:13px;">标题</th>
+                    <th style="padding:10px 8px;text-align:center;font-size:13px;">ID</th>
                 </tr>
             </thead>
-            <tbody>{rows}</tbody>
-        </table>
-        """
+            <tbody>{rows_html}</tbody>
+        </table>"""
 
-    html = f"""
-    <html>
-    <body style="font-family:Helvetica,Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;color:#333;">
-        <div style="background:#0D47A1;color:#fff;padding:20px;border-radius:8px 8px 0 0;">
-            <h2 style="margin:0;">📢 Kinatrip 营销发布提醒</h2>
-            <p style="margin:5px 0 0;opacity:0.8;">{datetime.now(TZ_BJT).strftime("%Y年%m月%d日 %H:%M")} BJT</p>
-        </div>
-        <div style="border:1px solid #eee;border-top:none;padding:20px;border-radius:0 0 8px 8px;">
-            <h3 style="color:#0D47A1;margin-top:0;">【今日 {today}】共 {len(today_posts)} 条</h3>
-            {render_table(today_posts)}
-            <h3 style="color:#0D47A1;margin-top:30px;">【明日 {tomorrow}】共 {len(tomorrow_posts)} 条</h3>
-            {render_table(tomorrow_posts)}
-            <hr style="margin:30px 0;border:none;border-top:1px solid #eee;">
-            <p style="font-size:12px;color:#999;">
-                🔗 内容日历：content_calendar.json<br>
-                📂 草稿目录：drafts/<br>
-                由 GitHub Actions 自动发送
+    # 今日/明日 统计卡片
+    def stat_card(count: int, label: str, color: str) -> str:
+        return f"""
+        <div style="flex:1;text-align:center;background:{color};color:#fff;
+                    border-radius:10px;padding:12px 8px;
+                    box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size:28px;font-weight:700;">{count}</div>
+            <div style="font-size:12px;opacity:0.9;">{label}</div>
+        </div>"""
+
+    stats_html = f"""
+    <div style="display:flex;gap:12px;margin-bottom:20px;">
+        {stat_card(len(today_posts), f"今日 {today}", "#0D47A1")}
+        {stat_card(len(tomorrow_posts), f"明日 {tomorrow}", "#1565C0")}
+        {stat_card(len(posts), "合计", "#1976D2")}
+    </div>"""
+
+    now_str = datetime.now(TZ_BJT).strftime("%Y年%m月%d日 %H:%M")
+
+    html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+
+<!-- 外层容器 -->
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f2f5;">
+<tr>
+<td align="center" style="padding:20px 10px;">
+
+<!-- 主卡片 -->
+<table width="100%" style="max-width:640px;border-collapse:collapse;">
+
+    <!-- 品牌头部 -->
+    <tr>
+        <td style="background:linear-gradient(135deg,#0D47A1,#1565C0,#1976D2);
+                   padding:28px 24px;border-radius:16px 16px 0 0;
+                   text-align:center;">
+            <div style="font-size:32px;margin-bottom:6px;">🌏</div>
+            <h1 style="color:#fff;margin:0;font-size:22px;font-weight:700;
+                       letter-spacing:1px;">
+                Kinatrip 发布提醒</h1>
+            <p style="color:rgba(255,255,255,0.85);margin:6px 0 0;
+                      font-size:13px;">
+                {now_str} BJT  ·  GMT+8</p>
+        </td>
+    </tr>
+
+    <!-- 统计卡片 -->
+    <tr>
+        <td style="background:#fff;padding:20px 24px 0 24px;">
+            {stats_html}
+        </td>
+    </tr>
+
+    <!-- 内容区域 -->
+    <tr>
+        <td style="background:#fff;padding:0 24px 24px 24px;
+                   border-radius:0 0 16px 16px;">
+
+            <!-- 今日 -->
+            <h2 style="color:#0D47A1;font-size:16px;margin:0 0 12px 0;
+                       padding-bottom:8px;border-bottom:2px solid #0D47A1;">
+                📅 今日 {today}</h2>
+            {render_section(today_posts, "今日", today)}
+
+            <!-- 明日 -->
+            <h2 style="color:#1565C0;font-size:16px;margin:24px 0 12px 0;
+                       padding-bottom:8px;border-bottom:2px solid #1565C0;">
+                📅 明日 {tomorrow}</h2>
+            {render_section(tomorrow_posts, "明日", tomorrow)}
+
+        </td>
+    </tr>
+
+    <!-- 底部信息 -->
+    <tr>
+        <td style="background:#fff;border-top:1px solid #eee;
+                   padding:16px 24px;border-radius:0 0 16px 16px;
+                   font-size:12px;color:#999;text-align:center;">
+            <p style="margin:0 0 4px;">
+                🔗 内容日历：content_calendar.json  ·
+                📂 草稿：drafts/ ·
+                🔄 由 GitHub Actions 自动发送 · 无需回复
             </p>
-        </div>
-    </body>
-    </html>
-    """
+            <p style="margin:0;font-size:11px;">
+                Kinatrip — 跨境旅游翻译APP · 拍照翻译 + 快捷沟通
+                <br>在预设时间截图发送对应平台的文案
+            </p>
+        </td>
+    </tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>"""
     return html
 
 
