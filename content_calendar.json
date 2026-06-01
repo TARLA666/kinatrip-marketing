@@ -2,7 +2,10 @@
   "meta": {
     "description": "Kinatrip 多平台内容发布日历 — 用于 GitHub Actions 定时提醒",
     "timezone": "Asia/Shanghai (BJT/GMT+8)",
-    "reminder_lead_hours": [24, 1],
+    "reminder_lead_hours": [
+      24,
+      1
+    ],
     "smtp_subject_prefix": "📢 [Kinatrip 发布提醒]"
   },
   "weeks": [
@@ -439,340 +442,340 @@
       "theme": "亚洲旅行续篇 — 多城市深度场景",
       "posts": [
         {
-          "id": "w2-mon-reddit",
           "date": "2026-06-08",
           "time_bjt": "20:00",
           "platform": "reddit",
           "type": "Story",
           "title": "How I survived 3 weeks in Japan with zero Japanese",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "东京街景",
           "hashtags": null,
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-mon-reddit-2"
         },
         {
-          "id": "w2-mon-x-twitter-1",
           "date": "2026-06-08",
           "time_bjt": "21:00",
           "platform": "x-twitter",
           "type": "Pain Point",
           "title": "That moment when the menu is ALL Kanji 😅",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "信息图",
           "hashtags": "#Kinatrip #AsiaTravel #LanguageBarrier",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-mon-x-twitter"
         },
         {
-          "id": "w2-mon-x-twitter-2",
-          "date": "2026-06-09",
+          "date": "2026-06-08",
           "time_bjt": "09:00",
           "platform": "x-twitter",
           "type": "Quick Tip",
-          "title": "3 seconds to translate any sign 🌏",
+          "title": "3 seconds. That's all it takes to translate any sign 🌏",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "功能展示",
           "hashtags": "#Kinatrip #TravelTech #AsiaTravel",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-mon-x-twitter-3"
         },
         {
-          "id": "w2-mon-instagram",
           "date": "2026-06-08",
           "time_bjt": "22:00",
           "platform": "instagram",
           "type": "Scene Story",
           "title": "Ordering street food in Bangkok 🇹🇭",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #Bangkok #StreetFood #AsiaTravel",
-          "status": "待发布"
+          "image_ref": "曼谷夜市",
+          "hashtags": "#Kinatrip #Bangkok #StreetFood #AsiaTravel #TravelTranslation",
+          "status": "待发布",
+          "id": "w2-mon-instagram-2"
         },
         {
-          "id": "w2-mon-facebook",
-          "date": "2026-06-09",
+          "date": "2026-06-08",
           "time_bjt": "09:00",
           "platform": "facebook",
           "type": "Story",
           "title": "How I navigated Tokyo for 2 weeks with zero Japanese",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #Tokyo #JapanTravel",
-          "status": "待发布"
+          "image_ref": "东京地铁",
+          "hashtags": null,
+          "status": "待发布",
+          "id": "w2-mon-facebook-2"
         },
         {
-          "id": "w2-tue-x-twitter-1",
           "date": "2026-06-09",
           "time_bjt": "21:00",
           "platform": "x-twitter",
           "type": "Interactive",
           "title": "What's your biggest language barrier in Asia? 🤔",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "话题图",
           "hashtags": "#Kinatrip #AsiaTravel #LanguageBarrier",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-tue-x-twitter"
         },
         {
-          "id": "w2-tue-x-twitter-2",
-          "date": "2026-06-10",
+          "date": "2026-06-09",
           "time_bjt": "09:00",
           "platform": "x-twitter",
           "type": "Quick Tip",
           "title": "Lost in Seoul? Point. Snap. Translated. ✈️",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "APP截图",
           "hashtags": "#Kinatrip #Seoul #KoreaTravel",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-tue-x-twitter-3"
         },
         {
-          "id": "w2-tue-instagram",
           "date": "2026-06-09",
           "time_bjt": "22:00",
           "platform": "instagram",
           "type": "Feature Spotlight",
           "title": "Point. Snap. Translate. Your Asia trip just got easier ✨",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #TravelTech #AsiaTravel #Wanderlust",
-          "status": "待发布"
+          "image_ref": "APP界面",
+          "hashtags": "#Kinatrip #TravelTech #AsiaTravel #Wanderlust #TravelTranslation",
+          "status": "待发布",
+          "id": "w2-tue-instagram-2"
         },
         {
-          "id": "w2-tue-xiaohongshu",
           "date": "2026-06-09",
           "time_bjt": "20:00",
           "platform": "xiaohongshu",
           "type": "攻略种草",
           "title": "东京自由行｜这些APP让我像本地人一样逛街",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "东京街拍",
           "hashtags": "#跨境旅游 #出国旅游翻译 #拍照翻译神器 #旅行必备APP #Kinatrip #日本自由行",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-tue-xiaohongshu-2"
         },
         {
-          "id": "w2-wed-x-twitter-1",
           "date": "2026-06-10",
           "time_bjt": "21:00",
           "platform": "x-twitter",
           "type": "Pain Point",
           "title": "Thai street food menu? No problem with Kinatrip 🍜",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "翻译演示",
           "hashtags": "#Kinatrip #Thailand #StreetFood #AsiaTravel",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-wed-x-twitter"
         },
         {
-          "id": "w2-wed-x-twitter-2",
-          "date": "2026-06-11",
+          "date": "2026-06-10",
           "time_bjt": "09:00",
           "platform": "x-twitter",
           "type": "Quick Tip",
           "title": "Offline translation packs: your backup when roaming fails 📶",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "功能截图",
           "hashtags": "#Kinatrip #TravelTip #AsiaTravel",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-wed-x-twitter-3"
         },
         {
-          "id": "w2-wed-facebook",
           "date": "2026-06-10",
-          "time_bjt": "21:00",
+          "time_bjt": "09:00",
           "platform": "facebook",
           "type": "Guide",
           "title": "3 essential apps for your first trip to Bangkok",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #Bangkok #ThailandTravel",
-          "status": "待发布"
+          "image_ref": "曼谷寺庙",
+          "hashtags": null,
+          "status": "待发布",
+          "id": "w2-wed-facebook-2"
         },
         {
-          "id": "w2-wed-instagram",
           "date": "2026-06-10",
           "time_bjt": "22:00",
           "platform": "instagram",
           "type": "Scene Story",
           "title": "Temple hopping in Bangkok like a local 🛕",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #Bangkok #WatArun #ThailandTravel",
-          "status": "待发布"
+          "image_ref": "泰国寺庙",
+          "hashtags": "#Kinatrip #Bangkok #WatArun #ThailandTravel #AsiaTravel",
+          "status": "待发布",
+          "id": "w2-wed-instagram-2"
         },
         {
-          "id": "w2-thu-reddit",
           "date": "2026-06-11",
           "time_bjt": "20:00",
           "platform": "reddit",
           "type": "Tool Review",
           "title": "I tested 5 translation apps for Asia — honest comparison",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "对比图",
           "hashtags": null,
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-thu-reddit-2"
         },
         {
-          "id": "w2-thu-x-twitter-1",
           "date": "2026-06-11",
           "time_bjt": "21:00",
           "platform": "x-twitter",
           "type": "Pain Point",
           "title": "Korean subway signs look impossible... until they don't 😎",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "功能展示",
           "hashtags": "#Kinatrip #KoreaTravel #Seoul #AsiaTravel",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-thu-x-twitter"
         },
         {
-          "id": "w2-thu-x-twitter-2",
-          "date": "2026-06-12",
+          "date": "2026-06-11",
           "time_bjt": "09:00",
           "platform": "x-twitter",
           "type": "Interactive",
-          "title": "Rate my Tokyo survival kit 🎒",
+          "title": "Rate my Tokyo survival kit (spoiler: it's just an APP) 🎒",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "APP截图",
           "hashtags": "#Kinatrip #Tokyo #TravelHack",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-thu-x-twitter-3"
         },
         {
-          "id": "w2-thu-instagram",
           "date": "2026-06-11",
           "time_bjt": "22:00",
           "platform": "instagram",
           "type": "Feature Spotlight",
-          "title": "Offline mode: your translation lifeline 🏔️",
+          "title": "Offline mode: your translation lifeline in remote Asia 🏔️",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #OfflineMode #TravelTech #AsiaTravel",
-          "status": "待发布"
+          "image_ref": "功能截图",
+          "hashtags": "#Kinatrip #OfflineMode #TravelTech #AsiaTravel #DigitalNomad",
+          "status": "待发布",
+          "id": "w2-thu-instagram-2"
         },
         {
-          "id": "w2-thu-xiaohongshu",
           "date": "2026-06-11",
           "time_bjt": "20:00",
           "platform": "xiaohongshu",
           "type": "功能展示",
           "title": "这个翻译APP，专为跨境旅游设计！",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "产品截图",
           "hashtags": "#Kinatrip #出国旅游翻译 #拍照翻译神器 #旅行必备APP #跨境旅游",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-thu-xiaohongshu-2"
         },
         {
-          "id": "w2-fri-x-twitter-1",
           "date": "2026-06-12",
           "time_bjt": "21:00",
           "platform": "x-twitter",
           "type": "Quick Tip",
           "title": "Voice translation just saved my Seoul food run 🍖",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "语音功能",
           "hashtags": "#Kinatrip #Seoul #KoreaTravel #VoiceTranslation",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-fri-x-twitter"
         },
         {
-          "id": "w2-fri-x-twitter-2",
-          "date": "2026-06-13",
+          "date": "2026-06-12",
           "time_bjt": "09:00",
           "platform": "x-twitter",
           "type": "Pain Point",
           "title": "When the hotel reception speaks zero English in Taipei 🏨",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "场景图",
           "hashtags": "#Kinatrip #Taipei #TravelStruggles",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-fri-x-twitter-3"
         },
         {
-          "id": "w2-fri-facebook",
           "date": "2026-06-12",
-          "time_bjt": "21:00",
+          "time_bjt": "09:00",
           "platform": "facebook",
           "type": "Story",
-          "title": "Language barrier almost ruined my Bangkok trip",
+          "title": "Language barrier almost ruined my Bangkok trip — until I found this",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #Bangkok #ThailandTravel",
-          "status": "待发布"
+          "image_ref": "曼谷街头",
+          "hashtags": null,
+          "status": "待发布",
+          "id": "w2-fri-facebook-2"
         },
         {
-          "id": "w2-fri-instagram",
           "date": "2026-06-12",
           "time_bjt": "22:00",
           "platform": "instagram",
           "type": "Scene Story",
           "title": "Navigating Seoul subway with zero Korean 🚇",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #Seoul #Subway #KoreaTravel",
-          "status": "待发布"
+          "image_ref": "首尔地铁",
+          "hashtags": "#Kinatrip #Seoul #Subway #KoreaTravel #AsiaTravel #TravelTranslation",
+          "status": "待发布",
+          "id": "w2-fri-instagram-2"
         },
         {
-          "id": "w2-sat-x-twitter-1",
           "date": "2026-06-13",
           "time_bjt": "21:00",
           "platform": "x-twitter",
           "type": "Interactive",
-          "title": "Which Asian city was hardest to navigate? 🗳️",
+          "title": "Which Asian city was hardest to navigate? Let's vote 🗳️",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "投票图",
           "hashtags": "#Kinatrip #AsiaTravel #TravelPoll",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-sat-x-twitter"
         },
         {
-          "id": "w2-sat-x-twitter-2",
-          "date": "2026-06-14",
+          "date": "2026-06-13",
           "time_bjt": "09:00",
           "platform": "x-twitter",
           "type": "Quick Tip",
-          "title": "Download offline packs BEFORE you fly ✈️",
+          "title": "Pro tip: download offline packs BEFORE you fly ✈️",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "功能截图",
           "hashtags": "#Kinatrip #TravelTip #AsiaTravel",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-sat-x-twitter-3"
         },
         {
-          "id": "w2-sat-xiaohongshu",
           "date": "2026-06-13",
           "time_bjt": "20:00",
           "platform": "xiaohongshu",
           "type": "痛点共鸣",
           "title": "出国旅游不会说？有了它我敢一个人去日本了",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "日本风景",
           "hashtags": "#Kinatrip #出国旅游翻译 #拍照翻译神器 #旅行必备APP #日本自由行",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-sat-xiaohongshu-2"
         },
         {
-          "id": "w2-sun-x-twitter-1",
           "date": "2026-06-14",
           "time_bjt": "21:00",
           "platform": "x-twitter",
           "type": "Pain Point",
           "title": "Decoding Vietnamese menus with one tap 🥡",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "翻译演示",
           "hashtags": "#Kinatrip #Vietnam #AsiaTravel",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-sun-x-twitter"
         },
         {
-          "id": "w2-sun-x-twitter-2",
-          "date": "2026-06-15",
+          "date": "2026-06-14",
           "time_bjt": "09:00",
           "platform": "x-twitter",
           "type": "Story",
           "title": "My 3-week Asia trip: the translation APP that saved me",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
+          "image_ref": "旅行合集",
           "hashtags": "#Kinatrip #AsiaTravel #TravelStory",
-          "status": "待发布"
+          "status": "待发布",
+          "id": "w2-sun-x-twitter-3"
         },
         {
-          "id": "w2-sun-facebook",
           "date": "2026-06-14",
-          "time_bjt": "21:00",
+          "time_bjt": "09:00",
           "platform": "facebook",
           "type": "Tip",
           "title": "What I wish I knew before ordering food in Seoul",
           "content_file": "drafts/week-2026-06-08/schedule.md",
-          "image_ref": null,
-          "hashtags": "#Kinatrip #Seoul #KoreaTravel",
-          "status": "待发布"
+          "image_ref": "首尔餐厅",
+          "hashtags": null,
+          "status": "待发布",
+          "id": "w2-sun-facebook-2"
         }
       ]
     }
