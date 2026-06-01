@@ -1,0 +1,5 @@
+{
+  "reminders_sent": {},
+  "last_check": null,
+  "note": "记录已发送的提醒，防止重复发送。key格式: '日期-时间-平台'，value为发送时间ISO格式"
+}

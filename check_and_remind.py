@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 """
-Kinatrip 发布前提醒 — 腾讯云函数 SCF 版
-========================================
-功能：每 30 分钟运行一次，检查排期表中是否有 30 分钟后发布的条目，通过 QQ 邮箱 SMTP 发送提醒。
+Kinatrip 发布前提醒 — GitHub Actions 版
+======================================
+功能：每小时运行一次，检查排期表中是否有 30 分钟后发布的条目，通过 QQ 邮箱 SMTP 发送提醒。
+文件存储：直接用 GitHub 仓库（schedule.md + reminder_tracker.json）
+追踪器更新：通过 git commit & push 写回仓库
 
-触发方式：定时触发器 (0,30 * * * *)
-依赖：cos-python-sdk-v5 (通过 requirements.txt 部署)
-
-环境变量（在 SCF 控制台配置）：
-  COS_SECRET_ID      — 腾讯云 API 密钥 ID
-  COS_SECRET_KEY      — 腾讯云 API 密钥 Key
-  COS_BUCKET          — COS 存储桶名称（默认 kinatrip-reminders）
-  COS_REGION          — COS 存储桶所属地域（默认 ap-guangzhou）
-  SMTP_PWD            — QQ 邮箱 SMTP 授权码
-  SMTP_EMAIL          — 发件邮箱（默认 ytityi@foxmail.com）
-  TO_EMAIL            — 收件邮箱（默认 ytityi@foxmail.com）
+环境变量（在 GitHub Secrets 配置）：
+  SMTP_PWD     — QQ 邮箱 SMTP 授权码
+  SMTP_EMAIL   — 发件邮箱（默认 ytityi@foxmail.com）
+  TO_EMAIL     — 收件邮箱（默认 ytityi@foxmail.com）
+  GITHUB_TOKEN — 自动提供，无需手动配置
 """
 
 import os
@@ -32,80 +28,24 @@ logger = logging.getLogger("kinatrip_reminder")
 
 # ========== 配置（从环境变量读取） ==========
 
-COS_SECRET_ID = os.environ.get("COS_SECRET_ID", "")
-COS_SECRET_KEY = os.environ.get("COS_SECRET_KEY", "")
-COS_BUCKET = os.environ.get("COS_BUCKET", "kinatrip-reminders")
-COS_REGION = os.environ.get("COS_REGION", "ap-guangzhou")
-SCHEDULE_FILE = os.environ.get("SCHEDULE_FILE", "schedule.md")
-TRACKER_FILE = os.environ.get("TRACKER_FILE", "reminder_tracker.json")
-
 SMTP_EMAIL = os.environ.get("SMTP_EMAIL", "ytityi@foxmail.com")
 SMTP_PWD = os.environ.get("SMTP_PWD", "")
 TO_EMAIL = os.environ.get("TO_EMAIL", "ytityi@foxmail.com")
 SMTP_SERVER = "smtp.qq.com"
-SMTP_PORT = 465  # SSL
+SMTP_PORT = 465
 
-# 当前基准年份（排期表通常不写年份）
+# 仓库内文件路径（GitHub Actions 中工作目录就是仓库根目录）
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SCHEDULE_PATH = os.path.join(SCRIPT_DIR, "drafts/week-2026-06-08/schedule.md")
+TRACKER_PATH = os.path.join(SCRIPT_DIR, "reminder_tracker.json")
+
 CURRENT_YEAR = 2026
-
-
-# ========== COS 文件存取 ==========
-
-def _get_cos_client():
-    """延迟导入 COS SDK，避免本地测试时缺少依赖报错"""
-    from qcloud_cos import CosConfig, CosS3Client
-
-    config = CosConfig(
-        Region=COS_REGION,
-        SecretId=COS_SECRET_ID,
-        SecretKey=COS_SECRET_KEY,
-    )
-    return CosS3Client(config)
-
-
-def download_text_from_cos(key):
-    """从 COS 下载文本文件内容"""
-    try:
-        client = _get_cos_client()
-        response = client.get_object(
-            Bucket=COS_BUCKET,
-            Key=key,
-        )
-        content = response["Body"].getvalue().decode("utf-8")
-        logger.info(f"成功从 COS 下载: {key} ({len(content)} 字节)")
-        return content
-    except Exception as e:
-        logger.error(f"下载 {key} 失败: {e}")
-        return None
-
-
-def upload_text_to_cos(key, text):
-    """将文本内容上传到 COS"""
-    try:
-        client = _get_cos_client()
-        client.put_object(
-            Bucket=COS_BUCKET,
-            Key=key,
-            Body=text.encode("utf-8"),
-        )
-        logger.info(f"成功上传到 COS: {key} ({len(text)} 字节)")
-        return True
-    except Exception as e:
-        logger.error(f"上传 {key} 失败: {e}")
-        return False
 
 
 # ========== 排期表解析 ==========
 
 def parse_schedule(content):
-    """
-    解析排期表 Markdown 内容
-    返回条目列表，每条包含：platform, title, publish_est, publish_bjt, content_type, image_method, day
-    
-    时间规则：
-    - 非小红书：EST 列权威（EST = UTC-4）
-    - 小红书：BJT 列权威，EST = BJT - 12小时
-    """
+    """解析排期表 Markdown 内容"""
     lines = content.split("\n")
     entries = []
 
@@ -114,7 +54,6 @@ def parse_schedule(content):
         if not line.startswith("|") or "---" in line or "日期" in line:
             continue
 
-        # 移除首尾 |
         if line.startswith("|"):
             line = line[1:]
         if line.endswith("|"):
@@ -122,7 +61,6 @@ def parse_schedule(content):
 
         cols = [c.strip() for c in line.split("|")]
 
-        # 识别日期列（如 "周一 6/8" 或 "**周一 6/8**"）
         date_col = cols[0] if cols else ""
         date_match = re.search(
             r"\*{0,2}(周一|周二|周三|周四|周五|周六|周日)\s+(\d+/\d+)\*{0,2}", date_col
@@ -134,7 +72,7 @@ def parse_schedule(content):
         month, day = map(int, date_str.split("/"))
 
         try:
-            if len(cols) == 9:
+            if len(cols) >= 9:
                 # 普通平台（9列）：日期 | EST | BJT | 平台 | 类型 | 标题 | 配图 | 内容 | 状态
                 time_est_str = cols[1]
                 platform = cols[3]
@@ -148,7 +86,7 @@ def parse_schedule(content):
                 hour_est, minute_est = map(int, time_est_str.split(":"))
                 publish_est = datetime(CURRENT_YEAR, month, day, hour_est, minute_est)
 
-            elif len(cols) == 8:
+            elif len(cols) >= 8:
                 # 小红书（8列）：日期 | BJT | 平台 | 类型 | 标题 | 配图 | 内容 | 状态
                 time_bjt_str = cols[1]
                 platform = cols[2]
@@ -161,7 +99,6 @@ def parse_schedule(content):
 
                 hour_bjt, minute_bjt = map(int, time_bjt_str.split(":"))
                 publish_bjt = datetime(CURRENT_YEAR, month, day, hour_bjt, minute_bjt)
-                # BJT = EST + 12小时 => EST = BJT - 12
                 publish_est = publish_bjt - timedelta(hours=12)
 
             else:
@@ -186,36 +123,22 @@ def parse_schedule(content):
 # ========== 匹配提醒条目 ==========
 
 def find_due_reminders(entries, tracker, tolerance_minutes=3):
-    """
-    找出需要在当前时间发送提醒的条目
-    
-    规则：
-    1. 提醒时间 = 发布时间(EST) - 30分钟
-    2. 计算提醒时间的 UTC 值（EST = UTC-4）
-    3. 匹配当前 UTC 时间 ± tolerance_minutes
-    
-    返回需要发送提醒的条目列表
-    """
+    """找出需要在当前时间发送提醒的条目"""
     now_utc = datetime.now(timezone.utc)
     due_entries = []
 
     for entry in entries:
         publish_est = entry["publish_est"]
-        # 提醒时间 = EST 发布时间 - 30分钟
         reminder_est = publish_est - timedelta(minutes=30)
-        # 转换为 UTC（EST = UTC-4, EDT = UTC-4, 固定使用 -4）
         reminder_utc = reminder_est.replace(tzinfo=timezone.utc) - timedelta(hours=4)
 
-        # 检查时间窗口
         diff = abs((now_utc - reminder_utc).total_seconds())
         if diff > tolerance_minutes * 60:
             continue
 
-        # 计算 tracker key
         platform_clean = entry["platform"]
         track_key = f"{entry['day']}-{publish_est.strftime('%H%M')}-{platform_clean}"
 
-        # 检查是否已发送
         sent = tracker.get("reminders_sent", {}).get(track_key)
         if sent:
             logger.info(f"跳过已发送的提醒: {track_key}")
@@ -237,7 +160,6 @@ def build_email_body(entry):
     content_type_clean = entry["content_type"]
     image_method_clean = entry["image_method"]
 
-    # BJT 显示逻辑
     if "小红书" in platform_clean:
         bjt_display = publish_est.strftime("%H:%M")
     else:
@@ -270,7 +192,7 @@ def build_email_body(entry):
 </div>
 
 <p style="margin-top: 20px; color: #999; font-size: 12px; text-align: center;">
-  Kinatrip 自动发布提醒 · 由腾讯云函数 (SCF) 驱动
+  Kinatrip 自动发布提醒 · 由 GitHub Actions 驱动
 </p>
 </div>
 </body>
@@ -301,40 +223,56 @@ def send_email(subject, html_body):
         return False
 
 
-# ========== 提醒追踪器 ==========
+# ========== 追踪器 ==========
 
 def load_tracker():
-    """从 COS 加载提醒追踪器"""
-    content = download_text_from_cos(TRACKER_FILE)
-    if content:
-        try:
-            return json.loads(content)
-        except json.JSONDecodeError as e:
-            logger.warning(f"解析 tracker 失败，重建: {e}")
-    
-    return {"reminders_sent": {}, "last_check": None, "note": "key: 日期-时间(EST)-平台"}
+    """加载提醒追踪器"""
+    try:
+        with open(TRACKER_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        logger.info(f"追踪器文件不存在，创建新文件: {TRACKER_PATH}")
+        return {"reminders_sent": {}, "last_check": None, "note": "key: 日期-时间(EST)-平台"}
+    except json.JSONDecodeError as e:
+        logger.warning(f"解析 tracker 失败，重建: {e}")
+        return {"reminders_sent": {}, "last_check": None, "note": "key: 日期-时间(EST)-平台"}
 
 
 def save_tracker(tracker):
-    """保存提醒追踪器到 COS"""
-    content = json.dumps(tracker, ensure_ascii=False, indent=2)
-    return upload_text_to_cos(TRACKER_FILE, content)
+    """保存追踪器并 git push"""
+    with open(TRACKER_PATH, "w", encoding="utf-8") as f:
+        json.dump(tracker, f, ensure_ascii=False, indent=2)
+
+    # git commit & push
+    try:
+        import subprocess
+        subprocess.run(["git", "config", "user.email", SMTP_EMAIL], check=True)
+        subprocess.run(["git", "config", "user.name", "Kinatrip Reminder Bot"], check=True)
+        subprocess.run(["git", "add", "reminder_tracker.json"], check=True)
+        subprocess.run(["git", "commit", "-m", "Update reminder tracker [bot]"], check=True)
+        subprocess.run(["git", "push"], check=True)
+        logger.info("追踪器已更新并推送回仓库")
+    except Exception as e:
+        logger.warning(f"git push 失败（邮件已发送): {e}")
 
 
 # ========== 主逻辑 ==========
 
 def check_and_send_reminders():
-    """主流程：下载 → 解析 → 匹配 → 发送 → 更新追踪"""
+    """主流程：读取 → 解析 → 匹配 → 发送 → 更新追踪"""
     now_utc = datetime.now(timezone.utc)
     logger.info(f"=== Kinatrip 提醒检查开始 [UTC: {now_utc.strftime('%Y-%m-%d %H:%M')}] ===")
 
-    # 1. 下载排期表
-    schedule_content = download_text_from_cos(SCHEDULE_FILE)
-    if not schedule_content:
-        logger.warning(f"排期表 {SCHEDULE_FILE} 未找到，跳过本次检查")
+    # 读取排期表
+    try:
+        with open(SCHEDULE_PATH, "r", encoding="utf-8") as f:
+            schedule_content = f.read()
+    except FileNotFoundError:
+
+        logger.warning(f"排期表未找到: {SCHEDULE_PATH}，跳过本次检查")
         return
 
-    # 2. 解析排期表
+    # 解析排期表
     entries = parse_schedule(schedule_content)
     logger.info(f"解析到 {len(entries)} 条发布计划")
 
@@ -342,10 +280,10 @@ def check_and_send_reminders():
         logger.info("没有有效的发布计划，跳过")
         return
 
-    # 3. 加载追踪器
+    # 加载追踪器
     tracker = load_tracker()
 
-    # 4. 查找需要提醒的条目
+    # 查找需要提醒的条目
     due_entries = find_due_reminders(entries, tracker)
     logger.info(f"找到 {len(due_entries)} 个需要提醒的条目")
 
@@ -355,7 +293,7 @@ def check_and_send_reminders():
         logger.info("没有到期提醒")
         return
 
-    # 5. 逐个发送提醒
+    # 逐个发送提醒
     sent_count = 0
     for entry in due_entries:
         subject = f"⏰ [Kinatrip发布提醒] {entry['platform']} - {entry['title']}"
@@ -369,37 +307,20 @@ def check_and_send_reminders():
         else:
             logger.error(f"✗ 发送失败: {entry['track_key']}")
 
-    # 6. 更新追踪器
+    # 更新追踪器
     tracker["last_check"] = now_utc.isoformat()
     save_tracker(tracker)
 
     logger.info(f"=== 完成: 成功发送 {sent_count}/{len(due_entries)} 条提醒 ===")
 
 
-# ========== SCF 入口 ==========
-
-def main_handler(event, context):
-    """腾讯云函数入口"""
-    logger.info("SCF 函数触发: event=%s", json.dumps(event, ensure_ascii=False))
-    try:
-        check_and_send_reminders()
-        return {"code": 0, "message": "success"}
-    except Exception as e:
-        logger.exception("SCF 执行异常")
-        return {"code": 1, "message": str(e)}
-
-
-# ========== 本地测试入口 ==========
-
 if __name__ == "__main__":
-    # 本地测试时需设置环境变量
     print("=" * 60)
-    print("Kinatrip 提醒 SCF — 本地测试模式")
+    print("Kinatrip 提醒 — GitHub Actions 版")
     print("=" * 60)
-    print(f"COS_BUCKET: {COS_BUCKET}")
     print(f"SMTP_EMAIL: {SMTP_EMAIL}")
     print(f"TO_EMAIL: {TO_EMAIL}")
     print(f"SMTP_PWD: {'已配置' if SMTP_PWD else '未配置!'}")
+    print(f"Schedule: {SCHEDULE_PATH}")
     print()
-
     check_and_send_reminders()
