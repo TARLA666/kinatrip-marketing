@@ -5,6 +5,12 @@ on:
     - cron: '0 22-23,0-14 * * *'
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: write
+
 jobs:
   check-reminder:
     runs-on: ubuntu-latest
@@ -12,14 +18,14 @@ jobs:
 
     steps:
       - name: 检出仓库代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           persist-credentials: true
 
-      - name: 设置 Python 3.9
-        uses: actions/setup-python@v5
+      - name: 设置 Python 3.13
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.9'
+          python-version: '3.13'
 
       - name: 运行提醒检查
         env:
@@ -33,6 +39,7 @@ jobs:
           git config user.email "${SMTP_EMAIL:-kinatrip-bot@example.com}"
           git config user.name "Kinatrip Reminder Bot"
           git add reminder_tracker.json
-          git diff --cached --quiet || (git commit -m "Update reminder tracker [bot]" && git push)
+          git diff --cached --quiet || git commit -m "Update reminder tracker [bot]"
+          git push
         env:
           SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
