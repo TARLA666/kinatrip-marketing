@@ -2,12 +2,8 @@ name: Kinatrip 发布提醒
 
 on:
   schedule:
-    # 每小时的 :00 运行一次（UTC 时间）
-    # BJT = UTC+8，以下 UTC 时间对应：
-    #   UTC 22:00 = BJT 06:00 / UTC 14:00 = BJT 22:00
-    # 覆盖用户活跃时段 06:00~22:00 BJT
     - cron: '0 22-23,0-14 * * *'
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   check-reminder:
@@ -18,7 +14,7 @@ jobs:
       - name: 检出仓库代码
         uses: actions/checkout@v4
         with:
-          persist-credentials: true  # 允许 git push tracker 更新
+          persist-credentials: true
 
       - name: 设置 Python 3.9
         uses: actions/setup-python@v5
@@ -32,9 +28,11 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python check_and_remind.py
 
-      - name: 提交 tracker 更新（去重记录）
+      - name: 提交 tracker 更新
         run: |
-          git config user.email "${{ secrets.SMTP_EMAIL || 'kinatrip-bot@example.com' }}"
+          git config user.email "${SMTP_EMAIL:-kinatrip-bot@example.com}"
           git config user.name "Kinatrip Reminder Bot"
           git add reminder_tracker.json
           git diff --cached --quiet || (git commit -m "Update reminder tracker [bot]" && git push)
+        env:
+          SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
