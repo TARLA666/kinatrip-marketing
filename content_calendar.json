@@ -1,12 +1,10 @@
 {
   "meta": {
-    "description": "Kinatrip 多平台内容发布日历 — 用于 GitHub Actions 定时提醒",
+    "description": "Kinatrip 多平台内容发布日历 — 用于 GitHub Actions 精准提醒（每30分钟扫描，30±5分钟窗口触发）",
     "timezone": "Asia/Shanghai (BJT/GMT+8)",
-    "reminder_lead_hours": [
-      24,
-      1
-    ],
-    "smtp_subject_prefix": "📢 [Kinatrip 发布提醒]"
+    "reminder_minutes": 30,
+    "reminder_window_minutes": 5,
+    "smtp_subject_prefix": "⏰ [Kinatrip 发布提醒]"
   },
   "weeks": [
     {

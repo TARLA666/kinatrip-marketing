@@ -1,15 +1,16 @@
-name: Kinatrip 发布提醒
+name: Kinatrip 精准发布提醒
 
 on:
   schedule:
-    - cron: '0 22-23,0-14 * * *'
-  workflow_dispatch:
+    # 每30分钟运行一次（整点和半点），对应精准30分钟提醒窗口
+    - cron: '0,30 * * * *'
+  workflow_dispatch:  # 支持手动触发
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
-  contents: write
+  contents: write  # 需要写入 reminder_tracker.json
 
 jobs:
   check-reminder:
@@ -27,7 +28,7 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: 运行提醒检查
+      - name: 运行精准提醒检查
         env:
           SMTP_PWD: ${{ secrets.SMTP_PWD }}
           SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
