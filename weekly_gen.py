@@ -19,35 +19,35 @@ TZ_BJT = "Asia/Shanghai"
 # ========== 平台配置模板 ==========
 PLATFORM_TEMPLATES = {
     "xiaohongshu": {
-        "time_bjt": "07:30",
+        "time_bjt": "20:00",
         "types": ["痛点共鸣", "攻略种草", "功能展示", "种草测评", "使用教程"],
         "title_prefix": "出国旅游不会说？",
         "title_suffix": "拍照翻译秒懂",
         "hashtag_base": "#跨境旅游 #出国旅游翻译 #拍照翻译神器 #旅行必备APP #Kinatrip",
     },
     "facebook": {
-        "time_bjt": "09:00",
+        "time_bjt": "21:00",
         "types": ["Story", "Guide", "Tip", "Story", "Guide"],
         "title_prefix": "How I navigated",
         "title_suffix": "with zero local language",
         "hashtag_base": "#Kinatrip #TravelTranslation",
     },
     "x-twitter": {
-        "time_bjt": "10:00",
+        "time_bjt": "21:00",
         "types": ["Pain Point", "Quick Tip", "Interactive", "Pain Point", "Quick Tip"],
         "title_prefix": "That moment when",
         "title_suffix": "menu in foreign language",
         "hashtag_base": "#Kinatrip #TravelHack",
     },
     "instagram": {
-        "time_bjt": "08:00",
+        "time_bjt": "22:00",
         "types": ["Scene Story", "Feature Spotlight", "Scene Story", "Feature Spotlight", "Scene Story"],
         "title_prefix": "Traveling in",
         "title_suffix": "like a local",
         "hashtag_base": "#Kinatrip #TravelTech",
     },
     "reddit": {
-        "time_bjt": "12:00",
+        "time_bjt": "19:00",
         "types": ["Story", "Tool Review", "Story", "Tool Review", "Story"],
         "title_prefix": "How I survived",
         "title_suffix": "with zero local language",

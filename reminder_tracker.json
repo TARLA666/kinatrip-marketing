@@ -1,18 +1,19 @@
 {
   "meta": {
-    "description": "记录已发送提醒的内容ID，防止重复提醒",
-    "last_updated": null
+    "description": "v4 三级提醒追踪器: daily_summary / 30min / 24h",
+    "last_updated": "2026-06-03T09:45:00"
   },
   "sent": {
-    "01-mon-xiaohongshu": "2026-06-02T03:22:28",
-    "29-mon-instagram": "2026-06-02T03:22:28",
-    "08-mon-facebook": "2026-06-02T03:22:28",
-    "15-mon-x-twitter": "2026-06-02T03:22:28",
-    "22-mon-reddit": "2026-06-02T03:22:28",
-    "02-tue-xiaohongshu": "2026-06-02T03:22:28",
-    "30-tue-instagram": "2026-06-02T03:22:28",
-    "09-tue-facebook": "2026-06-02T03:22:28",
-    "16-tue-x-twitter": "2026-06-02T03:22:28",
-    "09-tue-reddit": "2026-06-02T03:22:28"
+    "01-mon-xiaohongshu": {"30min": "2026-06-02T03:22:28"},
+    "29-mon-instagram": {"30min": "2026-06-02T03:22:28"},
+    "08-mon-facebook": {"30min": "2026-06-02T03:22:28"},
+    "15-mon-x-twitter": {"30min": "2026-06-02T03:22:28"},
+    "22-mon-reddit": {"30min": "2026-06-02T03:22:28"},
+    "02-tue-xiaohongshu": {"30min": "2026-06-02T03:22:28"},
+    "30-tue-instagram": {"30min": "2026-06-02T03:22:28"},
+    "09-tue-facebook": {"30min": "2026-06-02T03:22:28"},
+    "16-tue-x-twitter": {"30min": "2026-06-02T03:22:28"},
+    "09-tue-reddit": {"30min": "2026-06-02T03:22:28"},
+    "daily_2026-06-03": {"daily_summary": "2026-06-03T07:00:00"}
   }
 }
