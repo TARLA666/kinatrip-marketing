@@ -1,19 +1,47 @@
 {
   "meta": {
     "description": "v4 三级提醒追踪器: daily_summary / 30min / 24h",
-    "last_updated": "2026-06-03T09:45:00"
+    "last_updated": "2026-06-04T20:28:22"
   },
   "sent": {
-    "01-mon-xiaohongshu": {"30min": "2026-06-02T03:22:28"},
-    "29-mon-instagram": {"30min": "2026-06-02T03:22:28"},
-    "08-mon-facebook": {"30min": "2026-06-02T03:22:28"},
-    "15-mon-x-twitter": {"30min": "2026-06-02T03:22:28"},
-    "22-mon-reddit": {"30min": "2026-06-02T03:22:28"},
-    "02-tue-xiaohongshu": {"30min": "2026-06-02T03:22:28"},
-    "30-tue-instagram": {"30min": "2026-06-02T03:22:28"},
-    "09-tue-facebook": {"30min": "2026-06-02T03:22:28"},
-    "16-tue-x-twitter": {"30min": "2026-06-02T03:22:28"},
-    "09-tue-reddit": {"30min": "2026-06-02T03:22:28"},
-    "daily_2026-06-03": {"daily_summary": "2026-06-03T07:00:00"}
+    "01-mon-xiaohongshu": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "29-mon-instagram": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "08-mon-facebook": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "15-mon-x-twitter": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "22-mon-reddit": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "02-tue-xiaohongshu": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "30-tue-instagram": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "09-tue-facebook": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "16-tue-x-twitter": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "09-tue-reddit": {
+      "30min": "2026-06-02T03:22:28"
+    },
+    "daily_2026-06-03": {
+      "daily_summary": "2026-06-03T07:00:00"
+    },
+    "10-wed-facebook": {
+      "30min": "2026-06-04T20:28:19"
+    },
+    "17-wed-x-twitter": {
+      "30min": "2026-06-04T20:28:22"
+    }
   }
 }
