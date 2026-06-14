@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "v4 三级提醒追踪器: daily_summary / 30min / 24h",
-    "last_updated": "2026-06-12T17:42:33"
+    "last_updated": "2026-06-14T18:25:38"
   },
   "sent": {
     "01-mon-xiaohongshu": {
@@ -57,6 +57,9 @@
     },
     "daily_2026-06-12": {
       "daily_summary": "2026-06-12T17:42:33"
+    },
+    "daily_2026-06-14": {
+      "daily_summary": "2026-06-14T18:25:38"
     }
   }
 }
